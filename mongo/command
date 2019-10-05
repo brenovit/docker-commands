@@ -1,6 +1,7 @@
-docker run -d --name mongodb \
-	-p 270171:27017 \
-    -e MONGO_INITDB_ROOT_USERNAME=mongoadmin \
-    -e MONGO_INITDB_ROOT_PASSWORD=admin \
+docker run -it --rm --name mongodb \
+    -e MONGO_INITDB_ROOT_USERNAME=root \
+    -e MONGO_INITDB_ROOT_PASSWORD=root \
     -v /volumes/mongodb:/data/db \
-    mongo:4.2.0-rc1-bionic
+    mongo:4.2.0-bionic
+
+ docker-compose up -d
