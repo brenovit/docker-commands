@@ -1,0 +1,3 @@
+docker run -d --name redis \
+	-v /volumes/redis:/data \
+	redis 	--appendonly yes

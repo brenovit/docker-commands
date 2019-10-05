@@ -1,0 +1,9 @@
+docker run -d --name mongo-express \
+	-p 8081:8081 \
+	--network web_default \
+	-e ME_CONFIG_MONGODB_AUTH_USERNAME=mongoadmin \
+	-e ME_CONFIG_MONGODB_AUTH_PASSWORD=admin \
+	-e ME_CONFIG_MONGODB_SERVER=some-mongo \
+	-e ME_CONFIG_BASICAUTH_USERNAME=admin \
+	-e ME_CONFIG_BASICAUTH_PASSWORD=admin \
+	mongo-express
