@@ -1,0 +1,44 @@
+== ELASTICSEARCH ==
+
+docker run -d --name elasticsearch \
+	-p 9200:9200 \
+	-p 9300:9300 \
+	-v /volumes/elk/elasticsearch/data/:/usr/share/elasticsearch/data/ \
+	-e "discovery.type=single-node" \
+	docker.elastic.co/elasticsearch/elasticsearch:7.4.2
+
+== KIBANA ==
+
+docker run -d --name kibana \
+	-p 5601:5061 \
+	--link elasticsearch:elasticsearch \
+	-v /volumes/elk/kibana/config/:/usr/share/kibana/config/ \
+	docker.elastic.co/kibana/kibana:7.4.2
+
+== LOGSTASH ==
+
+docker run -d --name logstash \
+	-v /volumes/elk/logstash/config:/usr/share/logstash/config \
+	docker.elastic.co/logstash/logstash:7.4.2
+
+docker run -d --name elastic \
+ -p 9200:9200 -p 9300:9300 \
+ --restart=always \
+ -e "http.host=0.0.0.0" \
+ -e "discovery.type=single-node" \
+ -v /volumes/elk/elasticsearch/data/:/usr/share/elasticsearch/data/ \
+docker.elastic.co/elasticsearch/elasticsearch:7.4.2 & \
+docker run -d --name kibana \
+-p 5601:5601 \
+--restart=always \
+-e "ELASTICSEARCH_HOSTS=http://localhost:9200" \
+-e XPACK_GRAPH_ENABLED=true \
+-e XPACK_WATCHER_ENABLED=true \
+-e XPACK_ML_ENABLED=true \
+-e XPACK_MONITORING_ENABLED=true \
+-e XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED \
+docker.elastic.co/kibana/kibana:7.4.2 & \
+docker run -d --name logstash \
+--restart=always \
+-e "XPACK.MONITORING.ELASTICSEARCH.HOSTS=http://localhost:9200" \
+docker.elastic.co/logstash/logstash:7.4.2
