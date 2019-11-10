@@ -13,7 +13,22 @@ services:
     volumes:
     - /volumes/elk/elasticsearch/data/:/usr/share/elasticsearch/data/
     networks:
-      - elastic-network
+      - elk-network
+
+  logstash:
+    image: docker.elastic.co/logstash/logstash:7.4.2
+    container_name: logstash
+    environment:
+      SERVER_HOST: 0.0.0.0
+      ELASTICSEARCH_URL: http://elasticsearch:9200
+    command: logstash -f /usr/share/logstash/config/logstash.conf
+    volumes:
+      - /volumes/elk/logstash/config:/usr/share/logstash/config
+    networks:
+      - elk-network    
+    depends_on:
+      - elasticsearch     
+
   kibana:
     image: docker.elastic.co/kibana/kibana:7.4.2
     container_name: kibana
@@ -21,28 +36,15 @@ services:
       SERVER_NAME: kibana
       SERVER_HOST: 0.0.0.0      
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-      XPACK_GRAPH_ENABLED:
-      XPACK_WATCHER_ENABLED:
-      XPACK_ML_ENABLED:
-      XPACK_MONITORING_ENABLED:
-      XPACK_MONITORING_UI_CONTAINER_ELASTICSEARCH_ENABLED:
     ports:
     - "5601:5601"
     links:
       - elasticsearch
     networks:
-      - elastic-network
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.4.2
-    container_name: logstash
-    environment:
-      SERVER_HOST: 0.0.0.0
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-    volumes:
-      - /volumes/elk/logstash/config:/usr/share/logstash/config
-    networks:
-      - elastic-network
+      - elk-network
+    depends_on:
+      - elasticsearch
 
 networks: 
-    elastic-network:
+    elk-network:
       driver: bridge
