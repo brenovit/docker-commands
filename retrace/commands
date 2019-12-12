@@ -1,0 +1,20 @@
+key=1Jr7Yw6Qg5Wi6Gy0Jv1Wb5Cf5Up9Wn5Wt1Pa7Ix
+
+
+wget https://s1.stackify.com/Account/AgentDownload/Linux --output-document=stackify.tar.gz \
+     && tar -zxvf stackify.tar.gz stackify-agent-install-32bit && cd stackify-agent-install-32bit \
+     && sudo ./agent-install.sh --docker --key 1Jr7Yw6Qg5Wi6Gy0Jv1Wb5Cf5Up9Wn5Wt1Pa7Ix --environment Production
+
+--pid=host -v /usr/local/stackify:/usr/local/stackify
+
+docker run -it --pid=host -v /usr/local/stackify:/usr/local/stackify ubuntu bin/bash
+
+docker pull stackify/retrace
+
+docker run -d --restart always \
+ -e "STACKIFY_KEY=1Jr7Yw6Qg5Wi6Gy0Jv1Wb5Cf5Up9Wn5Wt1Pa7Ix" \
+ -e "STACKIFY_ENV=JAVA" \
+ -v /volumes/stackify/data:/var/stackify \
+ -v /:/hostfs:ro \
+ --user 0:0 \
+ stackify/retrace:latest 

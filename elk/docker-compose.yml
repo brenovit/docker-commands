@@ -24,6 +24,7 @@ services:
     command: logstash -f /usr/share/logstash/config/logstash.conf
     volumes:
       - /volumes/elk/logstash/config:/usr/share/logstash/config
+      - /volumes/elk/logstash/logs:/home/logs
     networks:
       - elk-network    
     depends_on:
