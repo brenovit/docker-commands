@@ -1,4 +1,5 @@
 docker run -d --name artifactory \
 	-p 8081:8081 \
-	-v /volumes/jfrog/artifactory:/var/opt/jfrog/artifactory \
+	-p 8082:8082 \
+	-v /dockervolumes/jfrog/artifactory:/var/opt/jfrog/artifactory \
 	docker.bintray.io/jfrog/artifactory-oss:latest
