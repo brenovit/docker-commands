@@ -1,3 +1,18 @@
 docker run -d --name redis \
 	-v /volumes/redis:/data \
-	redis 	--appendonly yes
+	-v /volumes/redis/redis.conf:/usr/local/etc/redis/redis.conf \
+	-p 6379:6379 \
+	redis redis-server /usr/local/etc/redis/redis.conf
+
+docker run -d --name redis-commander -d \
+  -p 8081:8081 \
+  rediscommander/redis-commander:latest
+
+docker build -t redis-unprotected:latest .
+
+docker pull zacharychang/redis-unprotected:latest
+
+docker run -d --name redis \
+	-v /volumes/redis:/data \
+	-p 6379:6379 \
+	zacharychang/redis-unprotected:latest

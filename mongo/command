@@ -1,13 +1,21 @@
-docker run -it -d --rm --name mongodb \
-    -e MONGO_INITDB_ROOT_USERNAME=root \
-    -e MONGO_INITDB_ROOT_PASSWORD=root \
-    -v /volumes/mongodb:/data/db \    
-    mongo:4.2.0-bionic
+docker run -it -d --name mongodb \
+    -e MONGO_INITDB_ROOT_USERNAME= \
+    -e MONGO_INITDB_ROOT_PASSWORD= \
+    -v /volumes/mongodb:/data/db \
+    -p 27017:27017 \
+    mongo:4.4.0-bionic
 
 docker run -it -d --name mongochat \
     -e MONGO_INITDB_ROOT_USERNAME= \
     -e MONGO_INITDB_ROOT_PASSWORD= \
     -v /volumes/mongodb/chat:/data/db \
+    -p 27017:27017 \
+    mongo:4.4.0-bionic
+
+docker run -it -d --name mongogap \
+    -e MONGO_INITDB_ROOT_USERNAME= \
+    -e MONGO_INITDB_ROOT_PASSWORD= \
+    -v /volumes/mongogap/chat:/data/db \
     -p 27017:27017 \
     mongo:4.4.0-bionic
 
