@@ -1,0 +1,68 @@
+version: "2"
+
+services:
+  redis-node-0:
+    image: docker.io/bitnami/redis-cluster:6.2
+    volumes:
+      - /Users/breno.arantes/volumes/redis/cluster-0:/bitnami/redis/data
+    environment:
+      - "REDIS_PASSWORD=redis"
+      - "REDIS_CLUSTER_ANNOUNCE_IP=127.0.0.1"
+      - "REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5"
+
+  redis-node-1:
+    image: docker.io/bitnami/redis-cluster:6.2
+    volumes:
+      - /Users/breno.arantes/volumes/redis/cluster-1:/bitnami/redis/data
+    environment:
+      - "REDIS_PASSWORD=redis"
+      - "REDIS_CLUSTER_ANNOUNCE_IP=127.0.0.1"
+      - "REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5"
+
+  redis-node-2:
+    image: docker.io/bitnami/redis-cluster:6.2
+    volumes:
+      - /Users/breno.arantes/volumes/redis/cluster-2:/bitnami/redis/data
+    environment:
+      - "REDIS_PASSWORD=redis"
+      - "REDIS_CLUSTER_ANNOUNCE_IP=127.0.0.1"
+      - "REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5"
+
+  redis-node-3:
+    image: docker.io/bitnami/redis-cluster:6.2
+    volumes:
+      - /Users/breno.arantes/volumes/redis/cluster-3:/bitnami/redis/data
+    environment:
+      - "REDIS_PASSWORD=redis"
+      - "REDIS_CLUSTER_ANNOUNCE_IP=127.0.0.1"
+      - "REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5"
+
+  redis-node-4:
+    image: docker.io/bitnami/redis-cluster:6.2
+    volumes:
+      - /Users/breno.arantes/volumes/redis/cluster-4:/bitnami/redis/data
+    environment:
+      - "REDIS_PASSWORD=redis"
+      - "REDIS_CLUSTER_ANNOUNCE_IP=127.0.0.1"
+      - "REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5"
+
+  redis-node-5:
+    image: docker.io/bitnami/redis-cluster:6.2
+    volumes:
+      - /Users/breno.arantes/volumes/redis/cluster-5:/bitnami/redis/data
+    ports:
+      - 6379:6379
+    depends_on:
+      - redis-node-0
+      - redis-node-1
+      - redis-node-2
+      - redis-node-3
+      - redis-node-4
+    environment:
+      - "REDIS_PASSWORD=redis"
+      - "REDIS_PORT_NUMBER=6379"
+      - "REDIS_CLUSTER_ANNOUNCE_IP=127.0.0.1"
+      - "REDISCLI_AUTH=redis"
+      - "REDIS_CLUSTER_REPLICAS=1"
+      - "REDIS_NODES=redis-node-0 redis-node-1 redis-node-2 redis-node-3 redis-node-4 redis-node-5"
+      - "REDIS_CLUSTER_CREATOR=yes"

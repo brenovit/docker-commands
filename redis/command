@@ -1,8 +1,40 @@
+docker run --rm \
+     -v /Users/breno.arantes/Documents/docker-commands/redis/7000/redis.conf:/usr/local/etc/redis/redis.conf \
+    --net=host \
+    --name \
+    myredis-0 \
+    redis \
+    redis-server /usr/local/etc/redis/redis.conf
+    
+docker run --rm \
+     -v /Users/breno.arantes/Documents/docker-commands/redis/7001/redis.conf:/usr/local/etc/redis/redis.conf \
+    --net=host \
+    --name \
+    myredis-1 \
+    redis \
+    redis-server /usr/local/etc/redis/redis.conf
+
+
+redis-cli --cluster create 0.0.0.0:7000 0.0.0.0:7001 --cluster-replicas 1
+
+
 docker run -d --name redis \
-	-v /volumes/redis:/data \
-	-v /volumes/redis/redis.conf:/usr/local/etc/redis/redis.conf \
+	-v /Users/breno.arantes/volumes/redis:/data \
+	-v /Users/breno.arantes/volumes/redis/redis.conf:/usr/local/etc/redis/redis.conf \
 	-p 6379:6379 \
 	redis redis-server /usr/local/etc/redis/redis.conf
+
+docker run -d --name redis-cluster \
+     -p 6379:6379 \
+     -e ALLOW_EMPTY_PASSWORD=yes \
+     -v /Users/breno.arantes/volumes/redis:/bitnami \
+     bitnami/redis-cluster:6.0.16
+
+docker run \
+-p 6379:6379 \
+-v /Users/breno.arantes/volumes/redis:/data \
+--name redis2 \
+-d redis:3.2 redis-server --appendonly yes  --requirepass "redis" 
 
 docker run -d --name redis-commander -d \
   -p 8081:8081 \
@@ -14,5 +46,9 @@ docker pull zacharychang/redis-unprotected:latest
 
 docker run -d --name redis \
 	-v /volumes/redis:/data \
+	-p 6379:6379 \
+	zacharychang/redis-unprotected:latest
+
+docker run -d --name redis \
 	-p 6379:6379 \
 	zacharychang/redis-unprotected:latest
