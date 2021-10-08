@@ -1,7 +1,7 @@
 docker run -it -d --name mongodb \
     -e MONGO_INITDB_ROOT_USERNAME= \
     -e MONGO_INITDB_ROOT_PASSWORD= \
-    -v /volumes/mongodb:/data/db \
+    -v /Users/breno.arantes/volumes/mongodb:/data/db \
     -p 27017:27017 \
     mongo:4.4.0-bionic
 
@@ -19,5 +19,12 @@ docker run -it -d --name mongogap \
     -p 27017:27017 \
     mongo:4.4.0-bionic
 
+docker run -it -d --name mongodb
+    -e "/Users/breno.arantes/volumes/mongodb/replicaset/mongo1:/var/lib/mongo1" \
+    -e "/Users/breno.arantes/volumes/mongodb/replicaset/mongo2:/var/lib/mongo2" \
+    -e "/Users/breno.arantes/volumes/mongodb/replicaset/mongo3:/var/lib/mongo3" \
+    -p 27017:27017 \
+    -p 27018:27018 \
+    -p 27019:27019 \
+    davybello/mongo-replica-set:4.4.8
 
- docker-compose up -d
